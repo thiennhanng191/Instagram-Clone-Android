@@ -48,7 +48,6 @@ class LoginActivity : AppCompatActivity() {
                 e?.let{
                     Log.e(TAG, "Issue with Login", e);
                     Toast.makeText(this@LoginActivity, "Issue with login", Toast.LENGTH_SHORT).show()
-
                 }
                 goToMainActivity();
                 Toast.makeText(this@LoginActivity, "success!", Toast.LENGTH_SHORT).show()
