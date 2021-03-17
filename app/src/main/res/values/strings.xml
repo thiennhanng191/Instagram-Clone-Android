@@ -3,4 +3,8 @@
     <string name="userName">thiennhan</string>
     <string name="password">password</string>
     <string name="login">Login</string>
+    <string name="instagram_text_logo">Instagram Text Logo</string>
+    <string name="newPost">New Post</string>
+    <string name="addPost">Share</string>
+    <string name="caption_hint">Write a caption...</string>
 </resources>
