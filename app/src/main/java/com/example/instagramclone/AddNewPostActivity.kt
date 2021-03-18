@@ -1,5 +1,6 @@
 package com.example.instagramclone
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,8 +9,10 @@ import android.view.View
 import android.widget.*
 import com.example.instagramclone.models.Post
 import com.parse.ParseException
+import com.parse.ParseFile
 import com.parse.ParseUser
 import com.parse.SaveCallback
+import java.io.File
 
 class AddNewPostActivity : AppCompatActivity() {
     internal lateinit var ibGoBack: ImageButton
@@ -35,8 +38,11 @@ class AddNewPostActivity : AppCompatActivity() {
         ivPhotoPost = findViewById(R.id.ivPhotoPost)
 
         // get and decompress bitmap received from MainActivity
+        var photoFile = getIntent().extras!!["photoFile"] as File?
+
         var bytes = getIntent().getByteArrayExtra("imageBitmapBytes")
         var takenPhotoBitmap = bytes?.size?.let { BitmapFactory.decodeByteArray(bytes, 0, it) }
+        // Load the taken image into a preview
         ivPhotoPost.setImageBitmap(takenPhotoBitmap)
 
         etPostCaption = findViewById(R.id.etPostCaption)
@@ -55,14 +61,15 @@ class AddNewPostActivity : AppCompatActivity() {
                     }
                 }
                 val currentUser = ParseUser.getCurrentUser()
-                savePost(description, currentUser)
+
+                photoFile?.let { savePost(description, currentUser, it) }
             }
         })
     }
-    private fun savePost(description: String, currentUser: ParseUser) {
+    private fun savePost(description: String, currentUser: ParseUser, photoFile : File) {
         var post = Post()
         post.description = description
-        // TODO post.image = image
+        post.image = ParseFile(photoFile)
         post.user = currentUser
         post.saveInBackground(object : SaveCallback {
             override fun done(e: ParseException?) {
@@ -75,7 +82,15 @@ class AddNewPostActivity : AppCompatActivity() {
                     ).show()
                 }
                 Log.i(TAG, "Post saved successfully")
-                etPostCaption.setText("") // reset Edit Text
+                // reset EditText
+                etPostCaption.setText("")
+
+                // reset ImageView
+                ivPhotoPost.setImageResource(0)
+                // finish()
+                var intent = Intent(this@AddNewPostActivity, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(intent)
             }
 
         })

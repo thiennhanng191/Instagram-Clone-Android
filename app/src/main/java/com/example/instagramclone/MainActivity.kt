@@ -50,16 +50,6 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        /*
-        btnAddPost.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                val i = Intent(this@MainActivity, AddNewPostActivity::class.java)
-                startActivity(i)
-            }
-
-        })
-        */
-
         queryPosts();
     }
 
@@ -74,7 +64,6 @@ class MainActivity : AppCompatActivity() {
         // required for API >= 24
         val fileProvider = FileProvider.getUriForFile(this@MainActivity, "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider)
-
         // call startActivityForResult, as long as the result is not null
         // (i.e there's a camera app that can handle our file) -> safe to use the intent
         if (intent.resolveActivity(packageManager) != null) {
@@ -89,7 +78,6 @@ class MainActivity : AppCompatActivity() {
                 // by this point we have the camera photo on disk
                 val takenImage = BitmapFactory.decodeFile(photoFile.absolutePath) // takenImage is a bitmap
                 // RESIZE BITMAP, see section below
-                // Load the taken image into a preview
 
                 // compress bitmap before passing it as a Parcelable to the Preview Photoactivity
                 // or else would get into Failed Binder Transaction error because the size is too large
@@ -98,10 +86,8 @@ class MainActivity : AppCompatActivity() {
                 val bytes = stream.toByteArray()
                 var intent = Intent(this@MainActivity, PreviewPhotoActivity::class.java)
                 intent.putExtra( "imageBitmapBytes", bytes)
+                intent.putExtra("photoFile", photoFile)
                 startActivity(intent)
-                // val ivPreview: ImageView =
-                //findViewById<View>(android.R.id.ivPreview) as ImageView
-                // ivPreview.setImageBitmap(takenImage)
             } else { // Result was a failure
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show()
             }

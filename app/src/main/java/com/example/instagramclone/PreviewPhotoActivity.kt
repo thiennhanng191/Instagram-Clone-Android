@@ -3,13 +3,15 @@ package com.example.instagramclone
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import java.io.ByteArrayOutputStream
+import java.io.File
+
 
 class PreviewPhotoActivity : AppCompatActivity() {
     internal lateinit var ivPreviewPhoto : ImageView
@@ -31,6 +33,8 @@ class PreviewPhotoActivity : AppCompatActivity() {
 
         ivPreviewPhoto = findViewById(R.id.ivPreviewPhoto)
 
+        var photoFile = getIntent().extras!!["photoFile"] as File?
+
         // get and decompress bitmap received from MainActivity
         var bytes = getIntent().getByteArrayExtra("imageBitmapBytes")
         var takenPhotoBitmap = bytes?.size?.let { BitmapFactory.decodeByteArray(bytes, 0, it) }
@@ -44,6 +48,7 @@ class PreviewPhotoActivity : AppCompatActivity() {
                 val bytes = stream.toByteArray()
                 var intent = Intent(this@PreviewPhotoActivity, AddNewPostActivity::class.java)
                 intent.putExtra( "imageBitmapBytes", bytes)
+                intent.putExtra("photoFile", photoFile)
                 startActivity(intent)
             }
         })
