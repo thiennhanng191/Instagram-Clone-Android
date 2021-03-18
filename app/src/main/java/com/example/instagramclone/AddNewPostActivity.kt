@@ -1,13 +1,11 @@
 package com.example.instagramclone
 
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.Toast
+import android.widget.*
 import com.example.instagramclone.models.Post
 import com.parse.ParseException
 import com.parse.ParseUser
@@ -17,6 +15,7 @@ class AddNewPostActivity : AppCompatActivity() {
     internal lateinit var ibGoBack: ImageButton
     internal lateinit var btnShare: Button
     internal lateinit var etPostCaption: EditText
+    internal lateinit var ivPhotoPost: ImageView
 
     companion object {
         const val TAG ="AddNewPostActivity"
@@ -33,6 +32,13 @@ class AddNewPostActivity : AppCompatActivity() {
             }
 
         })
+        ivPhotoPost = findViewById(R.id.ivPhotoPost)
+
+        // get and decompress bitmap received from MainActivity
+        var bytes = getIntent().getByteArrayExtra("imageBitmapBytes")
+        var takenPhotoBitmap = bytes?.size?.let { BitmapFactory.decodeByteArray(bytes, 0, it) }
+        ivPhotoPost.setImageBitmap(takenPhotoBitmap)
+
         etPostCaption = findViewById(R.id.etPostCaption)
         btnShare = findViewById(R.id.btnShare)
         btnShare.setOnClickListener(object : View.OnClickListener{
