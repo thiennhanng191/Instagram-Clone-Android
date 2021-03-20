@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -51,7 +52,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-
         var bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
 
@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
                     ParseUser.logOut()
                     var intent = Intent(this@MainActivity, LoginActivity::class.java)
                     startActivity(intent)
+                    Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show()
                     true
                 }
                 else -> true
@@ -107,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra("photoFile", photoFile)
                 startActivity(intent)
             } else { // Result was a failure
-                Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(getApplicationContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show()
             }
         }
     }

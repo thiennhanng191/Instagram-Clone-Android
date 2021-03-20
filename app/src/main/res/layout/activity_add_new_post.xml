@@ -36,7 +36,8 @@
             app:layout_constraintStart_toEndOf="@id/ivPhotoPost"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="16dp"/>
+            android:layout_marginRight="16dp"
+            android:textCursorDrawable="@drawable/color_cursor"/>
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar_layout"

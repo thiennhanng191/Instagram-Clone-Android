@@ -2,17 +2,19 @@ package com.example.instagramclone
 
 import android.content.Intent
 import android.graphics.BitmapFactory
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import android.widget.ProgressBar
+import androidx.appcompat.app.AppCompatActivity
 import com.example.instagramclone.models.Post
 import com.parse.ParseException
 import com.parse.ParseFile
 import com.parse.ParseUser
 import com.parse.SaveCallback
 import java.io.File
+
 
 class AddNewPostActivity : AppCompatActivity() {
     internal lateinit var ibGoBack: ImageButton
@@ -53,16 +55,22 @@ class AddNewPostActivity : AppCompatActivity() {
                 description?.let{
                     if (description.isEmpty()) {
                         Toast.makeText(
-                            this@AddNewPostActivity,
-                            "Description cannot be empty",
+                            getApplicationContext(),
+                            "Post caption cannot be empty",
                             Toast.LENGTH_SHORT
                         ).show()
                         return
                     }
                 }
                 val currentUser = ParseUser.getCurrentUser()
+                // on some click or some loading we need to wait for...
+                // setContentView(R.layout.activity_main)
 
-                photoFile?.let { savePost(description, currentUser, it) }
+                photoFile?.let {
+                    savePost(description, currentUser, it)
+                    // run a background job and once complete
+                    // pb.visibility = ProgressBar.INVISIBLE
+                }
             }
         })
     }
@@ -76,7 +84,7 @@ class AddNewPostActivity : AppCompatActivity() {
                 e?.let{
                     Log.e(TAG, "Error while saving", e)
                     Toast.makeText(
-                        this@AddNewPostActivity,
+                        getApplicationContext(),
                         "Error while saving",
                         Toast.LENGTH_SHORT
                     ).show()
