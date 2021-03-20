@@ -1,13 +1,15 @@
 package com.example.instagramclone
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.parse.LogInCallback
 import com.parse.ParseException
 import com.parse.ParseUser
@@ -37,6 +39,53 @@ class LoginActivity : AppCompatActivity() {
                 loginUser(username, password)
             }
         })
+
+        btnLogin.setEnabled(!etUsername.getText().toString().isEmpty() && !etPassword.getText().toString().isEmpty())
+
+        // disable compose tweet button when the user hasn't input anything
+
+        etUsername.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+                btnLogin.setEnabled(!etUsername.getText().toString().isEmpty() && !etPassword.getText().toString().isEmpty())
+            }
+
+            override fun afterTextChanged(s: Editable) {}
+        })
+
+        etPassword.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+                btnLogin.setEnabled(!etUsername.getText().toString().isEmpty() && !etPassword.getText().toString().isEmpty())
+            }
+
+            override fun afterTextChanged(s: Editable) {}
+        })
+
     }
     private fun loginUser(username: String, password: String) {
         Log.i(TAG, "Attempting to login user: $username")
@@ -47,10 +96,10 @@ class LoginActivity : AppCompatActivity() {
                 //TODO: add better error handling
                 e?.let{
                     Log.e(TAG, "Issue with Login", e);
-                    Toast.makeText(this@LoginActivity, "Issue with login", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(getApplicationContext(), "Issue with login", Toast.LENGTH_SHORT).show()
                 }
                 goToMainActivity();
-                Toast.makeText(this@LoginActivity, "success!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(getApplicationContext(), "success!", Toast.LENGTH_SHORT).show()
             }
         })
     }

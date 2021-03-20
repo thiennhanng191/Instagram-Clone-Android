@@ -91,6 +91,12 @@ class AddNewPostActivity : AppCompatActivity() {
                 var intent = Intent(this@AddNewPostActivity, MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                 startActivity(intent)
+                Toast.makeText(
+                    getApplicationContext(),
+                    "Post added successfully",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return
             }
 
         })

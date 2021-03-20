@@ -1,6 +1,5 @@
 package com.example.instagramclone
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -9,17 +8,19 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.FileProvider
 import com.example.instagramclone.models.Post
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.parse.FindCallback
 import com.parse.ParseException
 import com.parse.ParseQuery
+import com.parse.ParseUser
 import java.io.ByteArrayOutputStream
 import java.io.File
 
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     internal lateinit var btnAddPost : ImageButton
     internal lateinit var photoFile : File
+
     internal var photoFileName : String = "photo.jpg"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +51,22 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
+        var bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
+
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.userProfile ->  {
+                    Log.i(TAG, "bottom navigation clicked")
+                    ParseUser.logOut()
+                    var intent = Intent(this@MainActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> true
+            }
+        }
 
         queryPosts();
     }
@@ -112,7 +130,6 @@ class MainActivity : AppCompatActivity() {
         val file = File(mediaStorageDir.getPath() + File.separator + photoFileName)
         return file
     }
-
     private fun queryPosts() {
         // Specify which class to query
         val query: ParseQuery<Post> = ParseQuery.getQuery(Post::class.java)
