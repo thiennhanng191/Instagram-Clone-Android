@@ -11,11 +11,11 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageButton
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
 import com.example.instagramclone.models.Post
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.parse.FindCallback
@@ -37,6 +37,8 @@ class MainActivity : AppCompatActivity() {
 
     internal var photoFileName : String = "photo.jpg"
 
+    val fragMentManager = supportFragmentManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -54,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         })
         var bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
-
+        /*
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.userProfile ->  {
@@ -68,7 +70,31 @@ class MainActivity : AppCompatActivity() {
                 else -> true
             }
         }
+        */
 
+        bottomNavigationView.setOnNavigationItemSelectedListener {  item ->
+            var fragment: Fragment = Fragment()
+            when (item.itemId) {
+                R.id.home -> {
+                    // TODO update Main Fragment
+                }
+                R.id.userProfile ->  {
+                    // TODO update User Profile Fragment
+                    Log.i(TAG, "bottom navigation clicked")
+                    ParseUser.logOut()
+                    var intent = Intent(this@MainActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                    Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> true
+            }
+            fragMentManager.beginTransaction().replace(R.id.flContainer, fragment).commit()
+            true
+        }
+
+        // set default selection for Bottom navigation view
+        bottomNavigationView.selectedItemId = R.id.home
         queryPosts();
     }
 
