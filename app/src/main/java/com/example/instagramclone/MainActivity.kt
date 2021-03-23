@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import android.widget.ImageButton
 import android.widget.Toast
@@ -16,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import com.example.instagramclone.fragments.PostsFragment
 import com.example.instagramclone.models.Post
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.parse.FindCallback
@@ -56,31 +56,16 @@ class MainActivity : AppCompatActivity() {
         })
         var bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
-        /*
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.userProfile ->  {
-                    Log.i(TAG, "bottom navigation clicked")
-                    ParseUser.logOut()
-                    var intent = Intent(this@MainActivity, LoginActivity::class.java)
-                    startActivity(intent)
-                    Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                else -> true
-            }
-        }
-        */
-
         bottomNavigationView.setOnNavigationItemSelectedListener {  item ->
-            var fragment: Fragment = Fragment()
+            var fragment: Fragment = PostsFragment()
             when (item.itemId) {
                 R.id.home -> {
-                    // TODO update Main Fragment
+                    fragment = PostsFragment()
                 }
                 R.id.userProfile ->  {
                     // TODO update User Profile Fragment
                     Log.i(TAG, "bottom navigation clicked")
+                    fragment = PostsFragment()
                     ParseUser.logOut()
                     var intent = Intent(this@MainActivity, LoginActivity::class.java)
                     startActivity(intent)
@@ -95,7 +80,6 @@ class MainActivity : AppCompatActivity() {
 
         // set default selection for Bottom navigation view
         bottomNavigationView.selectedItemId = R.id.home
-        queryPosts();
     }
 
     private fun launchCamera() {
@@ -156,24 +140,5 @@ class MainActivity : AppCompatActivity() {
         // Return the file target for the photo based on file name
         val file = File(mediaStorageDir.getPath() + File.separator + photoFileName)
         return file
-    }
-    private fun queryPosts() {
-        // Specify which class to query
-        val query: ParseQuery<Post> = ParseQuery.getQuery(Post::class.java)
-        query.include(Post.KEY_USER) // get user alongside with the post
-        // get all posts
-        query.findInBackground(object : FindCallback<Post> {
-            override fun done(posts: MutableList<Post>?, e: ParseException?) {
-                e?.let{
-                    Log.e(TAG, "Issue with Login", e);
-                    return
-                }
-                if (posts != null) {
-                    for (post in posts) {
-                        Log.i(TAG, "Post: " + post.description + ", username: " + post.user!!.username)
-                    }
-                }
-            }
-        })
     }
 }
