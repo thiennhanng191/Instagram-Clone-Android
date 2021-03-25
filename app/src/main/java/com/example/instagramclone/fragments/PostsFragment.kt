@@ -16,7 +16,7 @@ import com.parse.FindCallback
 import com.parse.ParseException
 import com.parse.ParseQuery
 
-class PostsFragment : Fragment() {
+open class PostsFragment : Fragment() {
     companion object {
         const val TAG = "PostsFragment"
     }
@@ -50,11 +50,13 @@ class PostsFragment : Fragment() {
         queryPosts()
     }
 
-    private fun queryPosts() {
+    protected fun queryPosts() {
         // Specify which class to query
         val query: ParseQuery<Post> = ParseQuery.getQuery(Post::class.java)
         query.include(Post.KEY_USER) // get user alongside with the post
-        // get all posts
+        // get latest 20 posts
+        query.limit = 20
+        query.addDescendingOrder(Post.KEY_CREATED_AT)
         query.findInBackground(object : FindCallback<Post> {
             override fun done(posts: List<Post>?, e: ParseException?) {
                 e?.let{

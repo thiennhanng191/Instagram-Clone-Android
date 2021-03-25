@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.example.instagramclone.fragments.PostsFragment
+import com.example.instagramclone.fragments.ProfileFragment
 import com.example.instagramclone.models.Post
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.parse.FindCallback
@@ -65,11 +66,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.userProfile ->  {
                     // TODO update User Profile Fragment
                     Log.i(TAG, "bottom navigation clicked")
-                    fragment = PostsFragment()
+                    fragment = ProfileFragment()
+                    /* todo handle log out
                     ParseUser.logOut()
                     var intent = Intent(this@MainActivity, LoginActivity::class.java)
                     startActivity(intent)
                     Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show()
+                    */
+
                     true
                 }
                 else -> true
