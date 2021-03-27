@@ -50,7 +50,7 @@ open class PostsFragment : Fragment() {
         queryPosts()
     }
 
-    protected fun queryPosts() {
+    protected open fun queryPosts() {
         // Specify which class to query
         val query: ParseQuery<Post> = ParseQuery.getQuery(Post::class.java)
         query.include(Post.KEY_USER) // get user alongside with the post

@@ -1,16 +1,43 @@
 package com.example.instagramclone.fragments
 
+import android.graphics.Rect
+import android.os.Bundle
 import android.util.Log
-import com.example.instagramclone.MainActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.example.instagramclone.*
+import com.example.instagramclone.R
 import com.example.instagramclone.models.Post
-import com.parse.FindCallback
-import com.parse.ParseException
-import com.parse.ParseQuery
-import com.parse.ParseUser
+import com.parse.*
+import com.parse.Parse.getApplicationContext
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation
+
 
 class ProfileFragment : PostsFragment() {
+    lateinit var postsImagesAdapter: PostsImagesAdapter
+    lateinit var ivPostImage : ImageView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_profile, container, false)
+    }
+
+
     @Override
-    protected fun queryPost() {
+    protected override fun queryPosts() {
 
         super.queryPosts()
         // Specify which class to query
@@ -34,8 +61,62 @@ class ProfileFragment : PostsFragment() {
                 }
 
                 posts?.let { allPosts.addAll(it) }
-                adapter.notifyDataSetChanged()
+                postsImagesAdapter.notifyDataSetChanged()
             }
         })
+    }
+
+    @Override
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // create layout for one row in the list
+        rvPosts = view.findViewById(R.id.rvPosts)
+        // create the data source
+        allPosts = mutableListOf<Post>()
+        // create the adapter
+        postsImagesAdapter = context?.let {
+            Log.d("ProfileFragment", "checkpoint profile fragment")
+            PostsImagesAdapter(it, allPosts) }!!
+        adapter = context?.let {
+            PostsAdapter(it, allPosts)
+        }!!
+
+        // set the adapter on the recycler view
+        rvPosts.adapter = postsImagesAdapter
+        // set the layout manager on the recycler view
+        val gridLayoutManger = GridLayoutManager(context, 3)
+        val divider: ItemDecoration = object : ItemDecoration() {
+            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                outRect.setEmpty()
+            }
+        }
+        val mStaggerGridLayoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        rvPosts.layoutManager = gridLayoutManger
+        rvPosts.addItemDecoration(RecyclerViewItemDecorator(0))
+
+
+        queryPosts()
+        ivPostImage = view.findViewById(R.id.ivProfileImageCurrentUser)
+
+        var profileImage = ""
+
+        ParseUser.getCurrentUser().fetchInBackground(object : GetCallback<ParseUser> {
+            // fetch user from server
+            override fun done(user: ParseUser?, e: ParseException?) {
+                if (user != null) {
+                    Log.d("ProfileFragment", "check user: " + (user.getParseFile("profileImage")?.url
+                            ?: "none"))
+
+                     profileImage = user.getParseFile("profileImage")?.url
+                             ?: "none"
+
+                    Glide.with(getApplicationContext()).load(profileImage).apply(RequestOptions.circleCropTransform()).into(ivPostImage)
+                }
+            }
+
+        })
+
+
+
     }
 }
