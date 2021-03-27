@@ -49,10 +49,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/post_caption"
-        app:layout_constraintTop_toBottomOf="@id/ibLike"
-        app:layout_constraintStart_toStartOf="@id/ibLike"
+        app:layout_constraintTop_toBottomOf="@id/tvLikeCount"
+        app:layout_constraintStart_toStartOf="@id/tvLikeCount"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="10dp"
 
         />
 
@@ -82,6 +81,18 @@
         android:layout_marginLeft="16dp"
         android:background="@android:color/transparent"
         android:tint="#fff"/>
+    <TextView
+        android:id="@+id/tvLikeCount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/likeCount"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/ibLike"
+        app:layout_constraintStart_toStartOf="@id/ibLike"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="5dp"
+        />
+
 
     <TextView
         android:id="@+id/tvCreatedAt"
@@ -92,7 +103,6 @@
         app:layout_constraintTop_toBottomOf="@id/tvPostCaption"
         app:layout_constraintStart_toStartOf="@id/ibLike"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="5dp"
 
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

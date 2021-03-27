@@ -26,4 +26,5 @@
     -->
     <string name="hello_world">Hello Square World!</string>
     <string name="date">Monday</string>
+    <string name="likeCount">5 likes</string>
 </resources>

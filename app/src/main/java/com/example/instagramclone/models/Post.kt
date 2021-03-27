@@ -13,6 +13,8 @@ class Post () : ParseObject() {
         const val KEY_IMAGE ="image"
         const val KEY_USER ="user"
         const val KEY_CREATED_AT = "createdAt"
+        const val KEY_LIKE_COUNT = "likeCount"
+
     }
 
     var description : String?
@@ -37,12 +39,11 @@ class Post () : ParseObject() {
         set(user) {
             user?.let{ put(KEY_USER, it) }
         }
-
-    var createdDate : Date?
-        get() {
-            return getDate(KEY_CREATED_AT)
+    var likeCount : Int?
+        get(){
+            return getInt(KEY_LIKE_COUNT)
         }
-        set(data) {
-            createdAt?.let{ put(KEY_CREATED_AT, it)}
+        set(likeCount){
+            likeCount?.let { put(KEY_LIKE_COUNT, it)}
         }
 }

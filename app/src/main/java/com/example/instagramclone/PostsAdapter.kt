@@ -1,6 +1,7 @@
 package com.example.instagramclone
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.instagramclone.models.Post
 import com.example.instagramclone.utils.TimeFormatter
+import com.parse.GetCallback
+import com.parse.Parse
+import com.parse.ParseException
+import com.parse.ParseUser
 
 class PostsAdapter(
     val context: Context,
@@ -51,8 +56,9 @@ class PostsAdapter(
         private var ivProfileImage : ImageView = itemView.findViewById(R.id.ivProfileImage)
         private var onPostListener : OnPostListener = onPostListener
         private var tvCreatedAt : TextView = itemView.findViewById(R.id.tvCreatedAt)
-
+        private var tvLikeCount : TextView = itemView.findViewById(R.id.tvLikeCount)
         private var ibLike : ImageButton = itemView.findViewById(R.id.ibLike)
+
         fun bind(post: Post) {
             itemView.setOnClickListener(this)
             // Bind the post data to the view elements
@@ -65,11 +71,51 @@ class PostsAdapter(
             val profileImage = post.user?.getParseFile("profileImage")?.url
             Glide.with(context).load(profileImage).apply(RequestOptions.circleCropTransform()).into(ivProfileImage)
 
+            ParseUser.getCurrentUser().fetchInBackground(object : GetCallback<ParseUser> {
+                // fetch user from server
+                override fun done(user: ParseUser?, e: ParseException?) {
+                    if (user != null) {
+                        var array = user.getList<String>("postsLiked")
+                        // add the post to the list of posts that current user has liked
+                        if (array != null) {
+                            if (array.contains(post.objectId)) {
+                                ibLike.setImageResource(R.drawable.ic_instagram_heart_filled)
+                                ibLike.isEnabled = false
+                            }
+                        }
+                    }
+                }
+            })
+
             ibLike.setOnClickListener(object : View.OnClickListener {
                 override fun onClick(view: View?) {
                     ibLike.setImageResource(R.drawable.ic_instagram_heart_filled)
+                    post.likeCount = post.likeCount!! + 1
+                    post.save() // update post's like count
+                    post.likeCount?.let { tvLikeCount.setText(if (it > 1) ("" + it + " likes") else ("" + it + " like")) }
+
+                    // fetch the current logged in user to update the lists of liked posts
+                    ParseUser.getCurrentUser().fetchInBackground(object : GetCallback<ParseUser> {
+                        // fetch user from server
+                        override fun done(user: ParseUser?, e: ParseException?) {
+                            if (user != null) {
+                                var array = user.getList<String>("postsLiked")
+                                // add the post to the list of posts that current user has liked
+                                if (array == null) {
+                                    Log.d("PostsAdapter", "Check array null")
+                                    array = mutableListOf<String>()
+                                }
+                                array.add(post.objectId)
+                                array?.let { user.put("postsLiked", it) }
+                                user.saveInBackground()
+                            }
+                        }
+                    })
                 }
             })
+
+            post.likeCount?.let { tvLikeCount.setText(if (it > 1) ("" + it + " likes") else ("" + it + " like")) }
+
             tvCreatedAt.setText(TimeFormatter.getTimeStamp(post.createdAt))
         }
 
