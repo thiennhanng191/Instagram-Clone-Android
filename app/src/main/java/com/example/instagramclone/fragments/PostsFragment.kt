@@ -1,6 +1,7 @@
 package com.example.instagramclone.fragments
 
 import EndlessRecyclerViewScrollListener
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,15 +12,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.instagramclone.MainActivity
+import com.example.instagramclone.PostDetailsActivity
 import com.example.instagramclone.PostsAdapter
 import com.example.instagramclone.R
 import com.example.instagramclone.models.Post
 import com.parse.FindCallback
+import com.parse.Parse.getApplicationContext
 import com.parse.ParseException
 import com.parse.ParseQuery
 
 
-open class PostsFragment : Fragment() {
+open class PostsFragment : Fragment(), PostsAdapter.OnPostListener {
     companion object {
         const val TAG = "PostsFragment"
     }
@@ -48,7 +51,7 @@ open class PostsFragment : Fragment() {
         // create the data source
         allPosts = mutableListOf<Post>()
         // create the adapter
-        adapter = context?.let { PostsAdapter(it, allPosts) }!!
+        adapter = context?.let { PostsAdapter(it, allPosts, this) }!!
         // set the adapter on the recycler view
         rvPosts.adapter = adapter
         // set the layout manager on the recycler view
@@ -134,5 +137,13 @@ open class PostsFragment : Fragment() {
                 swipeContainer?.let{swipeContainer.isRefreshing = false}
             }
         })
+    }
+
+    override fun onPostClick(position: Int) {
+        Log.d(TAG, "check post clicked")
+        val post = allPosts.get(position)
+        var intent = Intent(getApplicationContext(), PostDetailsActivity::class.java)
+        intent.putExtra("post", post)
+        startActivity(intent)
     }
 }

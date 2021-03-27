@@ -37,6 +37,8 @@
         </provider>
 
         <activity android:name=".AddNewPostActivity" />
+        <activity android:name=".PostDetailsActivity" />
+
         <activity
             android:name=".LoginActivity"
             android:windowSoftInputMode="adjustResize">

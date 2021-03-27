@@ -19,10 +19,9 @@ import com.example.instagramclone.R
 import com.example.instagramclone.models.Post
 import com.parse.*
 import com.parse.Parse.getApplicationContext
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : Fragment(), PostsAdapter.OnPostListener {
     lateinit var postsImagesAdapter: PostsImagesAdapter
     lateinit var ivPostImage : ImageView
     lateinit var rvPostsProfile : RecyclerView
@@ -80,7 +79,7 @@ class ProfileFragment : Fragment() {
             Log.d("ProfileFragment", "checkpoint profile fragment")
             PostsImagesAdapter(it, allPosts) }!!
         adapter = context?.let {
-            PostsAdapter(it, allPosts)
+            PostsAdapter(it, allPosts, this)
         }!!
 
         // set the adapter on the recycler view
@@ -120,5 +119,9 @@ class ProfileFragment : Fragment() {
 
 
 
+    }
+
+    override fun onPostClick(position: Int) {
+        Log.d("ProfileFragment", "check post clicked")
     }
 }
