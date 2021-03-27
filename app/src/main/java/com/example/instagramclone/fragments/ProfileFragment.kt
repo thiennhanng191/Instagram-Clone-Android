@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
@@ -21,9 +22,12 @@ import com.parse.Parse.getApplicationContext
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
 
-class ProfileFragment : PostsFragment() {
+class ProfileFragment : Fragment() {
     lateinit var postsImagesAdapter: PostsImagesAdapter
     lateinit var ivPostImage : ImageView
+    lateinit var rvPostsProfile : RecyclerView
+    lateinit var allPosts : MutableList<Post>
+    lateinit var adapter : PostsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,9 +41,7 @@ class ProfileFragment : PostsFragment() {
 
 
     @Override
-    protected override fun queryPosts() {
-
-        super.queryPosts()
+    protected fun queryPosts() {
         // Specify which class to query
         val query: ParseQuery<Post> = ParseQuery.getQuery(Post::class.java)
         query.include(Post.KEY_USER) // get user alongside with the post
@@ -70,7 +72,7 @@ class ProfileFragment : PostsFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // create layout for one row in the list
-        rvPosts = view.findViewById(R.id.rvPosts)
+        rvPostsProfile = view.findViewById(R.id.rvPostsProfile)
         // create the data source
         allPosts = mutableListOf<Post>()
         // create the adapter
@@ -82,7 +84,7 @@ class ProfileFragment : PostsFragment() {
         }!!
 
         // set the adapter on the recycler view
-        rvPosts.adapter = postsImagesAdapter
+        rvPostsProfile.adapter = postsImagesAdapter
         // set the layout manager on the recycler view
         val gridLayoutManger = GridLayoutManager(context, 3)
         val divider: ItemDecoration = object : ItemDecoration() {
@@ -91,8 +93,8 @@ class ProfileFragment : PostsFragment() {
             }
         }
         val mStaggerGridLayoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
-        rvPosts.layoutManager = gridLayoutManger
-        rvPosts.addItemDecoration(RecyclerViewItemDecorator(0))
+        rvPostsProfile.layoutManager = gridLayoutManger
+        rvPostsProfile.addItemDecoration(RecyclerViewItemDecorator(0))
 
 
         queryPosts()
