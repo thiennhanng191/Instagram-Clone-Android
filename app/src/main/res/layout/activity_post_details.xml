@@ -43,15 +43,43 @@
         tools:srcCompat="@tools:sample/avatars"
         android:scaleType="centerCrop"/>
 
+    <ImageButton
+        android:id="@+id/ibLike"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:srcCompat="@drawable/ic_instagram_heart"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toBottomOf="@id/ivPostImage"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="12dp"
+        android:background="@android:color/transparent"
+        android:tint="#fff"/>
+
+    <ImageButton
+        android:id="@+id/ibComment"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:srcCompat="@drawable/ic_instagram_comment"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toBottomOf="@id/ivPostImage"
+
+        app:layout_constraintStart_toEndOf="@id/ibLike"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="16dp"
+        android:background="@android:color/transparent"
+        android:tint="#fff"/>
+
     <TextView
         android:id="@+id/tvPostCaption"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/post_caption"
-        app:layout_constraintTop_toBottomOf="@id/ivPostImage"
+        app:layout_constraintTop_toBottomOf="@id/ibLike"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="12dp"
 
         />
     <com.google.android.material.appbar.AppBarLayout

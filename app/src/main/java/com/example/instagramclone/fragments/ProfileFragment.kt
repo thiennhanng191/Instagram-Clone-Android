@@ -1,12 +1,15 @@
 package com.example.instagramclone.fragments
 
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +30,7 @@ class ProfileFragment : Fragment(), PostsAdapter.OnPostListener {
     lateinit var rvPostsProfile : RecyclerView
     lateinit var allPosts : MutableList<Post>
     lateinit var adapter : PostsAdapter
+    lateinit var btnLogout : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,7 +121,14 @@ class ProfileFragment : Fragment(), PostsAdapter.OnPostListener {
 
         })
 
-
+        btnLogout = view.findViewById<Button>(R.id.btnLogout)
+        btnLogout.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
+                ParseUser.logOut()
+                var intent = Intent(getApplicationContext(), LoginActivity::class.java)
+                startActivity(intent)
+                Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show()            }
+        })
 
     }
 
