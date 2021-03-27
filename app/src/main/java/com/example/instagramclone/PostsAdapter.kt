@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.instagramclone.models.Post
-import com.parse.Parse.getApplicationContext
+import com.example.instagramclone.utils.TimeFormatter
 
 class PostsAdapter(
     val context: Context,
@@ -50,6 +50,7 @@ class PostsAdapter(
         private var tvPostCaption : TextView = itemView.findViewById(R.id.tvPostCaption)
         private var ivProfileImage : ImageView = itemView.findViewById(R.id.ivProfileImage)
         private var onPostListener : OnPostListener = onPostListener
+        private var tvCreatedAt : TextView = itemView.findViewById(R.id.tvCreatedAt)
 
         private var ibLike : ImageButton = itemView.findViewById(R.id.ibLike)
         fun bind(post: Post) {
@@ -69,6 +70,7 @@ class PostsAdapter(
                     ibLike.setImageResource(R.drawable.ic_instagram_heart_filled)
                 }
             })
+            tvCreatedAt.setText(TimeFormatter.getTimeStamp(post.createdAt))
         }
 
         override fun onClick(v: View?) {

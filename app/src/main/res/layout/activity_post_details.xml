@@ -17,7 +17,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appbar_layout"
         app:layout_constraintVertical_bias="0.0"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        android:layout_marginLeft="12dp"/>
 
     <TextView
         android:id="@+id/tvUsername"
@@ -82,6 +83,19 @@
         android:layout_marginLeft="12dp"
 
         />
+
+    <TextView
+        android:id="@+id/tvCreatedAt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/date"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tvPostCaption"
+        app:layout_constraintStart_toStartOf="@id/ibLike"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="5dp"
+
+        />
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_layout"
         android:layout_width="match_parent"
@@ -106,7 +120,7 @@
         android:layout_height="0dp"
         app:layout_scrollFlags="scroll|enterAlways"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvPostCaption"
+        app:layout_constraintTop_toBottomOf="@id/tvCreatedAt"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintStart_toEndOf="parent"/>
 

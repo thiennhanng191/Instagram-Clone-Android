@@ -4,6 +4,7 @@ import com.parse.ParseClassName
 import com.parse.ParseFile
 import com.parse.ParseObject
 import com.parse.ParseUser
+import java.util.*
 
 @ParseClassName("Post")
 class Post () : ParseObject() {
@@ -37,4 +38,11 @@ class Post () : ParseObject() {
             user?.let{ put(KEY_USER, it) }
         }
 
+    var createdDate : Date?
+        get() {
+            return getDate(KEY_CREATED_AT)
+        }
+        set(data) {
+            createdAt?.let{ put(KEY_CREATED_AT, it)}
+        }
 }
