@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.instagramclone.models.Post
 
-class PostsImagesAdapter(val context : Context, var posts : List<Post>) : RecyclerView.Adapter<PostsImagesAdapter.ViewHolder>() {
+class PostsImagesAdapter(val context : Context, var posts : List<Post>, private val mOnPostThumbnailListener: PostsImagesAdapter.OnPostThumbnailListener) : RecyclerView.Adapter<PostsImagesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_post_image, parent, false)
-        return ViewHolder(view, context)
+        return ViewHolder(view, context, mOnPostThumbnailListener)
     }
 
     override fun getItemCount(): Int {
@@ -28,13 +28,15 @@ class PostsImagesAdapter(val context : Context, var posts : List<Post>) : Recycl
     }
 
 
-    class ViewHolder(itemView: View, val context: Context) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View, val context: Context, onPostThumbnailListener: OnPostThumbnailListener) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         // private var tvUsername : TextView = itemView.findViewById(R.id.tvUsername)
         private var ivPostImage : ImageView = itemView.findViewById(R.id.ivPostImage)
-        // private var tvPostCaption : TextView = itemView.findViewById(R.id.tvPostCaption)
-        // private var ivProfileImage : ImageView = itemView.findViewById(R.id.ivProfileImage)
+        private var onPostThumbnailListener : OnPostThumbnailListener = onPostThumbnailListener
+
 
         fun bind(post: Post) {
+            itemView.setOnClickListener(this)
+
             // Bind the post data to the view elements
             val image = post.image
 
@@ -42,9 +44,16 @@ class PostsImagesAdapter(val context : Context, var posts : List<Post>) : Recycl
             image?.let {
                 Glide.with(context).load(post.image?.url).into(ivPostImage)
             }
-
-
+        }
+        override fun onClick(v: View?) {
+            onPostThumbnailListener.onPostThumbnailClick(adapterPosition)
         }
     }
+
+    interface OnPostThumbnailListener {
+        fun onPostThumbnailClick(position : Int)
+    }
+
+
 
 }

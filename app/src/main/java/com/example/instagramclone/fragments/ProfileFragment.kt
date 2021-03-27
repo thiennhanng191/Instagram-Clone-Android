@@ -24,7 +24,7 @@ import com.parse.*
 import com.parse.Parse.getApplicationContext
 
 
-class ProfileFragment : Fragment(), PostsAdapter.OnPostListener {
+class ProfileFragment : Fragment(),PostsImagesAdapter.OnPostThumbnailListener {
     lateinit var postsImagesAdapter: PostsImagesAdapter
     lateinit var ivPostImage : ImageView
     lateinit var rvPostsProfile : RecyclerView
@@ -81,10 +81,7 @@ class ProfileFragment : Fragment(), PostsAdapter.OnPostListener {
         // create the adapter
         postsImagesAdapter = context?.let {
             Log.d("ProfileFragment", "checkpoint profile fragment")
-            PostsImagesAdapter(it, allPosts) }!!
-        adapter = context?.let {
-            PostsAdapter(it, allPosts, this)
-        }!!
+            PostsImagesAdapter(it, allPosts, this) }!!
 
         // set the adapter on the recycler view
         rvPostsProfile.adapter = postsImagesAdapter
@@ -132,7 +129,11 @@ class ProfileFragment : Fragment(), PostsAdapter.OnPostListener {
 
     }
 
-    override fun onPostClick(position: Int) {
+    override fun onPostThumbnailClick(position: Int) {
         Log.d("ProfileFragment", "check post clicked")
+        val post = allPosts.get(position)
+        var intent = Intent(getApplicationContext(), PostDetailsActivity::class.java)
+        intent.putExtra("post", post)
+        startActivity(intent)
     }
 }
