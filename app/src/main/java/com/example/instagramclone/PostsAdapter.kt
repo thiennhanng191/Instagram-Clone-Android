@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -50,7 +51,7 @@ class PostsAdapter(
         private var ivProfileImage : ImageView = itemView.findViewById(R.id.ivProfileImage)
         private var onPostListener : OnPostListener = onPostListener
 
-
+        private var ibLike : ImageButton = itemView.findViewById(R.id.ibLike)
         fun bind(post: Post) {
             itemView.setOnClickListener(this)
             // Bind the post data to the view elements
@@ -62,6 +63,12 @@ class PostsAdapter(
             }
             val profileImage = post.user?.getParseFile("profileImage")?.url
             Glide.with(context).load(profileImage).apply(RequestOptions.circleCropTransform()).into(ivProfileImage)
+
+            ibLike.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(view: View?) {
+                    ibLike.setImageResource(R.drawable.ic_instagram_heart_filled)
+                }
+            })
         }
 
         override fun onClick(v: View?) {
