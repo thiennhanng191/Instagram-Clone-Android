@@ -29,7 +29,6 @@ class ProfileFragment : Fragment(),PostsImagesAdapter.OnPostThumbnailListener {
     lateinit var ivPostImage : ImageView
     lateinit var rvPostsProfile : RecyclerView
     lateinit var allPosts : MutableList<Post>
-    lateinit var adapter : PostsAdapter
     lateinit var btnLogout : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -22,9 +22,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.InstagramClone"
-        android:usesCleartextTraffic="true"
-        >
-        <activity android:name=".PreviewPhotoActivity"></activity>
+        android:usesCleartextTraffic="true">
+        <activity android:name=".UserProfileActivity"></activity>
+        <activity android:name=".PreviewPhotoActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -38,7 +38,6 @@
 
         <activity android:name=".AddNewPostActivity" />
         <activity android:name=".PostDetailsActivity" />
-
         <activity
             android:name=".LoginActivity"
             android:windowSoftInputMode="adjustResize">

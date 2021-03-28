@@ -1,6 +1,7 @@
 package com.example.instagramclone
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.example.instagramclone.models.Post
 import com.example.instagramclone.utils.TimeFormatter
 import com.parse.GetCallback
 import com.parse.Parse
+import com.parse.Parse.getApplicationContext
 import com.parse.ParseException
 import com.parse.ParseUser
 
@@ -58,6 +60,7 @@ class PostsAdapter(
         private var tvCreatedAt : TextView = itemView.findViewById(R.id.tvCreatedAt)
         private var tvLikeCount : TextView = itemView.findViewById(R.id.tvLikeCount)
         private var ibLike : ImageButton = itemView.findViewById(R.id.ibLike)
+        private var viewContainerUserProfile : View = itemView.findViewById(R.id.viewContainerUserProfile)
 
         fun bind(post: Post) {
             itemView.setOnClickListener(this)
@@ -117,6 +120,14 @@ class PostsAdapter(
             post.likeCount?.let { tvLikeCount.setText(if (it > 1) ("" + it + " likes") else ("" + it + " like")) }
 
             tvCreatedAt.setText(TimeFormatter.getTimeStamp(post.createdAt))
+
+            viewContainerUserProfile.setOnClickListener(object : View.OnClickListener{
+                override fun onClick(v: View?) {
+                    var intent = Intent(context, UserProfileActivity::class.java)
+                    intent.putExtra("post", post)
+                    context.startActivity(intent)
+                }
+            })
         }
 
         override fun onClick(v: View?) {

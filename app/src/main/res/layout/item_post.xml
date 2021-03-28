@@ -8,6 +8,15 @@
     android:paddingBottom="8dp"
     android:paddingTop="8dp">
 
+    <View
+        android:id="@+id/viewContainerUserProfile"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="@id/ivProfileImage"
+        app:layout_constraintBottom_toBottomOf="@id/ivProfileImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <ImageView
         android:id="@+id/ivProfileImage"
         android:layout_width="40dp"
