@@ -1,8 +1,11 @@
 package com.example.instagramclone.fragments
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.Rect
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.net.toFile
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,14 +26,22 @@ import com.example.instagramclone.R
 import com.example.instagramclone.models.Post
 import com.parse.*
 import com.parse.Parse.getApplicationContext
+import java.io.File
+import java.net.URI
 
 
 class ProfileFragment : Fragment(),PostsImagesAdapter.OnPostThumbnailListener {
+    companion object {
+        const val pickImage = 100
+
+    }
     lateinit var postsImagesAdapter: PostsImagesAdapter
     lateinit var ivPostImage : ImageView
     lateinit var rvPostsProfile : RecyclerView
     lateinit var allPosts : MutableList<Post>
     lateinit var btnLogout : Button
+    lateinit var btnChangeProfileImage : Button
+    private var imageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,9 +135,38 @@ class ProfileFragment : Fragment(),PostsImagesAdapter.OnPostThumbnailListener {
                 ParseUser.logOut()
                 var intent = Intent(getApplicationContext(), LoginActivity::class.java)
                 startActivity(intent)
-                Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show()            }
+                Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show()
+            }
         })
 
+        btnChangeProfileImage = view.findViewById(R.id.btnChangeProfileImage)
+        btnChangeProfileImage.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
+                val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+                startActivityForResult(gallery, pickImage)
+            }
+        })
+
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK && requestCode == pickImage) {
+            imageUri = data?.data
+            val imageFile = imageUri?.toFile()
+            // Log.d("ProfileFragment", "image uri: " + Uri.parse("//" +))
+            // imageView.setImageURI(imageUri)
+            ParseUser.getCurrentUser().fetchInBackground(object : GetCallback<ParseUser> {
+                // fetch user from server
+                override fun done(user: ParseUser?, e: ParseException?) {
+                    if (user != null) {
+                         user.put("image", ParseFile(imageFile))
+                         user.saveInBackground()
+                    }
+                }
+            })
+        }
     }
 
     override fun onPostThumbnailClick(position: Int) {
