@@ -84,6 +84,9 @@ class PostsAdapter(
                             if (array.contains(post.objectId)) {
                                 ibLike.setImageResource(R.drawable.ic_instagram_heart_filled)
                                 ibLike.isEnabled = false
+                            } else {
+                                ibLike.setImageResource(R.drawable.ic_instagram_heart)
+                                ibLike.isEnabled = true
                             }
                         }
                     }
