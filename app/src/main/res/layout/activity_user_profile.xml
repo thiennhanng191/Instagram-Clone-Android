@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserProfileActivity"
-    android:layout_marginTop="12dp">
+    tools:context=".UserProfileActivity">
         <ImageView
             android:id="@+id/ivProfileImage"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:contentDescription="@string/profile_image_description"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appbar_layout"
             android:layout_marginLeft="12dp"
             android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/avatars" />
@@ -40,5 +39,21 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:fitsSystemWindows="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_post_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways" />
+
+        </com.google.android.material.appbar.AppBarLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

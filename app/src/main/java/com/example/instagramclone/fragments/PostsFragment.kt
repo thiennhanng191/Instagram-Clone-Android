@@ -89,9 +89,9 @@ open class PostsFragment : Fragment(), PostsAdapter.OnPostListener {
         val query: ParseQuery<Post> = ParseQuery.getQuery(Post::class.java)
         query.include(Post.KEY_USER) // get user alongside with the post
         // get latest 20 posts
-        query.limit = 5
+        query.limit = 20
         // query.skip = page * displayLimit
-        query.setSkip(page*5)
+        query.setSkip(page*20)
         query.addDescendingOrder(Post.KEY_CREATED_AT)
         query.findInBackground(object : FindCallback<Post> {
             override fun done(posts: List<Post>?, e: ParseException?) {
@@ -118,7 +118,7 @@ open class PostsFragment : Fragment(), PostsAdapter.OnPostListener {
         val query: ParseQuery<Post> = ParseQuery.getQuery(Post::class.java)
         query.include(Post.KEY_USER) // get user alongside with the post
         // get latest 20 posts
-        query.limit = 5
+        query.limit = 20
         query.addDescendingOrder(Post.KEY_CREATED_AT)
         query.findInBackground(object : FindCallback<Post> {
             override fun done(posts: List<Post>?, e: ParseException?) {

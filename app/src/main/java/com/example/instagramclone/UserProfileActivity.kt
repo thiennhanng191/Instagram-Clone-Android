@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
@@ -28,6 +29,7 @@ class UserProfileActivity : AppCompatActivity(), PostsImagesAdapter.OnPostThumbn
     lateinit var ivProfileImage : ImageView
     lateinit var postsImagesAdapter: PostsImagesAdapter
     lateinit var post : Post
+    lateinit var ibGoBack : ImageButton
 
     @Override
     protected fun queryPosts() {
@@ -62,6 +64,15 @@ class UserProfileActivity : AppCompatActivity(), PostsImagesAdapter.OnPostThumbn
 
         tvUsername = findViewById(R.id.tvUsername)
         ivProfileImage = findViewById(R.id.ivProfileImage)
+
+        ibGoBack = findViewById(R.id.ibGoBack)
+
+        ibGoBack.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
+                finish()
+            }
+
+        })
 
         post = getIntent().extras!!["post"] as Post
 

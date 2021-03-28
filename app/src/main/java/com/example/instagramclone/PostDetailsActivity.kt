@@ -3,6 +3,7 @@ package com.example.instagramclone
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -24,6 +25,7 @@ class PostDetailsActivity : AppCompatActivity() {
     lateinit var tvCreatedAt : TextView
     lateinit var ibLike : ImageButton
     lateinit var tvLikeCount : TextView
+    lateinit var ibGoBack : ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +36,16 @@ class PostDetailsActivity : AppCompatActivity() {
         tvPostCaption = findViewById(R.id.tvPostCaption)
         ibLike = findViewById(R.id.ibLike)
         tvLikeCount = findViewById(R.id.tvLikeCount)
+
+        ibGoBack = findViewById(R.id.ibGoBack)
+
+        ibGoBack.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
+                finish()
+            }
+
+        })
+
 
         var post = getIntent().extras!!["post"] as Post?
 
