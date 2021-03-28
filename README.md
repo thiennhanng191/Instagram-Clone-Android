@@ -38,7 +38,8 @@ The following **additional** features are implemented:
 <img src='walkthough-asmt3pt2-2.gif' title='Tap Post to go to Post Details, Like Post, Tap on Username and Profile Photo to fo to User Profile' width='' alt='Tap Post to go to Post Details, Like Post, Tap on Username and Profile Photo to fo to User Profile' />
 
 ### Current User Profile, Display Logged In User's posts in Grid, Log Out Functionality
-<img src='walkthough-asmt3pt2-3.gif' title='Current User Profile, Display Logged In User's posts in Grid, Log Out Functionality' width='' alt='Current User Profile, Display Logged In User's posts in Grid, Log Out Functionality' />
+<img src='walkthough-asmt3pt2-3.gif' title='Walkthrough part 3' width='' alt='Walkthrough part 3' />
+
 
 GIF created with [GIPHY Capture](https://giphy.com/apps/giphycapture).
 
